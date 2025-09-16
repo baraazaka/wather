@@ -1,0 +1,519 @@
+.navbar {
+  background-color: hsl(243, 96%, 9%);
+
+  height: 43px;
+}
+.main {
+  width: 1216px;
+  margin: auto;
+}
+.sectionMain {
+  display: flex;
+  margin-top: 48px;
+  display: flex;
+  justify-content: space-between;
+}
+.drop {
+  color: azure;
+  font-size: 13px;
+    cursor: pointer;
+
+}
+
+
+.ButtonDrop{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+      cursor: pointer;
+       font-size: 14px;
+
+}
+.hed {
+  color: white;
+  text-align: center;
+  margin-top: 64px;
+  font-size: 40px;
+  font-family: "Bricolage Grotesque";
+}
+.Setting{
+  display: flex;
+  align-items: center;
+    background-color: hsl(243, 23%, 30%);
+    justify-content: center;
+    gap: 4px;
+    height: 32px;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.iconsSitings{
+  color: white;
+  font-size: 12px;
+}
+.SearchContainer{
+ display: flex;
+  align-items: center;
+  gap: 20px;
+    justify-content: center;
+    margin-top: 42px;
+}
+.searchInput{
+   display: flex;
+  align-items: center;
+  background-color: #2a2940; 
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 426px;
+  gap: 10px;
+
+}
+.searchInput input{
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  font-size: 14px;
+}
+.searchButton{
+  background-color: red;
+}
+.searchInput input::placeholder{
+    color: #aaa;
+
+}
+.searchicon {
+  color: #aaa;
+  margin-right: 8px;
+}
+
+.searchButton{
+    background-color: #4f46e5; 
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.searchButton:hover{
+    background-color: #4338ca; 
+
+}
+.ContainerMain{
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+}
+.leftMain{
+  width: 64%;
+  height: 693px;
+}
+
+.BackgroundImage {
+  display: flex;
+  height: 286px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+    border-radius:20px;
+
+  
+}
+.contentBackground{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+}
+.contentBackground img{
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.nameCity {
+  font-size: 30px;
+  color: white;
+}
+.day {
+  color: white;
+  opacity: 80%;
+}
+.temperature {
+  font-size: 100px;
+  color: white;
+  display: flex;
+  
+
+}
+.numberMain{
+  margin-top: 32px;
+  display: flex;
+  gap: 24px;
+}
+.feels{
+  background-color: #2a2940; 
+  width: 25%;
+  height: 14%;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+     border-radius:15px;
+
+  gap: 24px;
+  padding: 20px;
+}
+.feels p{
+  font-size: 18px;
+
+
+}
+.numberRain{
+  display: flex;
+  gap:30px;
+}
+.feels span{}
+.dailyMain{
+  margin-top: 48px;
+  
+}
+.dailyMain h3{
+  font-size: 20px;
+
+}
+.allRain{
+  display: flex;
+  flex-wrap: wrap;
+      gap: 17px;
+  
+
+}
+.dailyMain h3 {
+  color: white;
+}
+.rain{
+  display: flex;
+  flex-wrap: wrap;
+  color: white;
+  margin-top: 20px;
+  width: 12.30%;
+  height: 21%;
+    background-color: #2a2940; 
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+         border-radius:15px;
+
+
+}
+.rain img{
+width: 60%;
+height: 60%;
+}
+.rightMain{
+      background-color: #2a2940; 
+
+  width: 384px;
+  height: 690px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 28px;
+           border-radius:15px;
+           padding: 24px;
+
+}
+
+.rightTop{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.rightTop h3{
+  font-size: 20px;
+}
+.RightRightArea{
+  display: flex;
+ width: 100px ;
+ padding-left: 8px;
+ align-items: center  ;
+ background-color: hsl(243, 23%, 30%);
+            border-radius:10px;
+            justify-content: center;
+
+ gap: 8px;
+ height: 37px;
+}
+.ScrollAreaAll{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 25px;
+}
+.Scroll{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 8%;
+  background-color: hsl(243, 23%, 30%);
+  padding: 5px;
+  border-radius: 8px;
+}
+.Scrollsub{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.Scrollsub img{
+  width: 40px;
+  height: 40px;
+}
+.timeTemp{
+  margin-right: 10px;
+}
+.SearchContainer {
+  position: relative; /* مهم جداً لكي تظهر قائمة الاقتراحات بشكل صحيح */
+  
+}
+
+.searchResultsList {
+  position: absolute;
+  top: 100%; /* تضع القائمة أسفل حقل البحث مباشرة */
+  left: 29%;
+  right:0;
+  background-color: #3b3a55; /* لون خلفية القائمة */
+  border: 1px solid #5a597a;
+  border-top: none;
+  z-index: 10;
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 200px; /* لتحديد أقصى ارتفاع للقائمة */
+  overflow-y: auto; /* لإضافة شريط تمرير إذا كانت القائمة طويلة */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  margin-top: 10px;
+  
+}
+
+.searchResultItem {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #fff;
+  border-bottom: 1px solid #5a597a;
+  transition: background-color 0.2s ease;
+}
+
+.searchResultItem:hover {
+  background-color: #4c4b69; /* لون الخلفية عند التحويم */
+}
+
+/* قم بإضافة هذا النمط للتخلص من الخطوط أسفل آخر عنصر في القائمة */
+.searchResultItem:last-child {
+  border-bottom: none;
+}
+/* هذا الجزء لمتصفحات WebKit (Chrome, Safari, Edge) */
+.searchResultsList::-webkit-scrollbar {
+  width: 8px; /* عرض شريط التمرير العمودي */
+  border-radius: 4px; /* لتقويس الزوايا */
+}
+
+.searchResultsList::-webkit-scrollbar-track {
+  background: #3b3a55; /* لون خلفية مسار شريط التمرير */
+  border-radius: 4px;
+}
+
+.searchResultsList::-webkit-scrollbar-thumb {
+  background-color: #5a597a; /* لون المقبض الذي تقوم بسحبه */
+  border-radius: 4px;
+}
+
+/* هذا الجزء لمتصفح Firefox */
+.searchResultsList {
+  scrollbar-width: thin; /* عرض شريط التمرير: thin أو auto */
+  scrollbar-color: #5a597a #3b3a55; /* لون المقبض ولون المسار */
+}
+/* <<<<< أنماط شاشة التحميل >>>>> */
+/* <<<<< أنماط شاشة التحميل >>>>> */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.skeletonHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 20px;
+}
+
+.skeletonSearch {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.skeletonMain {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 100%;
+  max-width: 1216px;
+  margin-top: 48px;
+}
+
+/* نفس أبعاد اليسار واليمين من تصميمك */
+.skeletonCard {
+  width: 64%;
+  height: 693px;
+}
+
+.skeletonHourly {
+  width: 384px;
+  height: 690px;
+}
+
+/* أنيميشن أبطأ */
+@keyframes slowPulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.animate-slowPulse {
+  animation: slowPulse 100s ease-in-out infinite;
+}
+
+
+/* ================== Responsive Design ================== */
+
+/* شاشات التابلت (iPad) */
+@media (max-width: 1024px) {
+  .main {
+    width: 90%;
+  }
+
+  .sectionMain {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .ContainerMain {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .leftMain
+   {
+    width: 100%;
+    height: auto;
+  }
+  .rightMain{
+    width: 30%;
+  }
+
+  .dailyMain h3 {
+    text-align: center;
+  }
+
+  .allRain {
+    justify-content: center;
+  }
+
+  .rain {
+    width: 20%; /* أكبر شوي عشان تناسب الشاشة */
+  }
+}
+
+/* شاشات الموبايل */
+@media (max-width: 1024px) {
+  .main {
+    width: 95%; /* خلي العرض مرن */
+  }
+
+  .BackgroundImage {
+    flex-direction: column;
+    text-align: center;
+    height: auto;
+    gap: 16px;
+  }
+.contentBackground img{
+  width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+}
+  .numberMain {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .feels {
+    width: 45%; /* خلي كل اتنين ييجوا جنب بعض */
+    height: auto;
+  }
+
+  .allRain {
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .rain {
+    width: 28%; /* كل صف يجيب 3 عناصر بدل 7 */
+  }
+
+  .rightMain {
+    width: 100%; /* خليها تاخد عرض الشاشة */
+    height: auto;
+  }
+}
+
+/* شاشات صغيرة جداً (أقل من 480px) */
+@media (max-width: 480px) {
+  .hed {
+    font-size: 22px;
+  }
+
+  .temperature {
+    font-size: 48px;
+  }
+
+  .nameCity {
+    font-size: 22px;
+  }
+
+  .rain {
+    width: 45%;
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .feels p {
+    font-size: 14px;
+  }
+}
