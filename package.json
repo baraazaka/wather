@@ -1,15 +1,20 @@
 {
-  
+
+
   
   "name": "my-app",
-  "private": false,
+  "private": true,
   "version": "0.0.0",
+  "homepage": "https://baraazaka.github.io/wather/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d dist"
+    
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.16",

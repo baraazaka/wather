@@ -9,5 +9,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: '/wather/', // 👈 هذا أهم سطر عشان يزبط على GitHub Pages
+  base: '/wather', // 👈 هذا أهم سطر عشان يزبط على GitHub Pages
 })
