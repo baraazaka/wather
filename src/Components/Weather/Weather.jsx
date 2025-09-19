@@ -2,17 +2,22 @@ import React, { useEffect, useState } from "react";
 import Style from "./Weather.module.css";
 import Logo from "../../assets/logo.svg";
 import bg from "../../assets/bg-today-large.svg";
-import { AiOutlineSetting } from "react-icons/ai";
-import { AiOutlineDown } from "react-icons/ai";
-import sunnyIcon from "../../assets/icon-sunny.webp";
-import cloudIcon from "../../assets/icon-partly-cloudy.webp";
-import rainIcon from "../../assets/icon-rain.webp";
-import snowIcon from "../../assets/icon-snow.webp";
-import stormIcon from "../../assets/icon-storm.webp";
-import fogIcon from "../../assets/icon-fog.webp";
-import overcastIcon from "../../assets/icon-overcast.webp"
+import { AiOutlineSetting, AiOutlineDown } from "react-icons/ai";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import SunTimes from "../SunTimes.jsx";
+import Lottie from "react-lottie";
+
+import sunnyAnimation from "../../assets/sunny.json";
+import cloudAnimation from "../../assets/cloud.json";
+import rainAnimation from "../../assets/rain.json";
+import stormAnimation from "../../assets/storm.json";
+import fogAnimation from "../../assets/fog.json";
+import overcastAnimation from "../../assets/overcast.json";
+import snowAnimation from "../../assets/snow.json";
+
+
+
 
 import {
   DropdownMenu,
@@ -22,42 +27,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { FaSearch } from "react-icons/fa";
-
 import axios from "axios";
-
-const weatherCodes = {
-  0: sunnyIcon,
-  1: sunnyIcon,
-  2: cloudIcon,
-  3: overcastIcon, 
-  45: fogIcon,
-  48: fogIcon,
-  51: rainIcon, 53: rainIcon, 55: rainIcon,
-  61: rainIcon, 63: rainIcon, 65: rainIcon,
-  80: rainIcon, 81: rainIcon, 82: rainIcon,
-  56: snowIcon, 57: snowIcon,
-  66: snowIcon, 67: snowIcon,
-  71: snowIcon, 73: snowIcon, 75: snowIcon,
-  77: snowIcon,
-  85: snowIcon, 86: snowIcon,
-  95: stormIcon, 96: stormIcon, 99: stormIcon
-};
 
 export default function Weather() {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [city, setCity] = useState("Berlin");
   const [searchQuery, setSearchQuery] = useState("");
-  const [coordinates, setCoordinates] = useState({ latitude: 52.52, longitude: 13.41 });
+  const [coordinates, setCoordinates] = useState({
+    latitude: 52.52,
+    longitude: 13.41,
+  });
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const fetchWeatherData = async (lat, lon) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m,relative_humidity_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation,wind_speed_10m,relative_humidity_2m,weather_code&hourly=temperature_2m,weather_code&daily=sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`
       );
       setWeatherData(response.data);
     } catch (error) {
@@ -107,20 +96,18 @@ export default function Weather() {
   const handleCitySelect = (result) => {
     setCoordinates({ latitude: result.latitude, longitude: result.longitude });
     setCity(result.name);
-    setSearchQuery(""); 
-    setSearchResults([]); 
+    setSearchQuery("");
+    setSearchResults([]);
   };
-  
+
   const handleSearch = async () => {
-    if (searchQuery.trim() === "") {
-      return;
-    }
-    
+    if (searchQuery.trim() === "") return;
+
     try {
       const geoResponse = await axios.get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}&count=1`
       );
-  
+
       if (geoResponse.data.results && geoResponse.data.results.length > 0) {
         const { latitude, longitude, name } = geoResponse.data.results[0];
         setCoordinates({ latitude, longitude });
@@ -134,220 +121,253 @@ export default function Weather() {
       console.error("Error fetching data:", error);
     }
   };
-  
+
   const getDayOfWeek = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { weekday: "short" });
   };
 
-  const getWeatherIcon = (code) => {
-    return weatherCodes[code] || "❓";
+  const getWeatherAnimation = (code) => {
+    if ([0, 1].includes(code)) return sunnyAnimation;
+    if ([2].includes(code)) return cloudAnimation;
+    if ([3].includes(code)) return overcastAnimation;
+    if ([45, 48].includes(code)) return fogAnimation;
+    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return rainAnimation;
+    if ([56, 57, 66, 67, 71, 73, 75, 77, 85, 86].includes(code)) return snowAnimation;
+    if ([95, 96, 99].includes(code)) return stormAnimation;
+    return sunnyAnimation;
   };
 
-  const getFormattedTime = (timeString) => {
-    const date = new Date(timeString);
-    return date.toLocaleTimeString("en-US", { hour: "numeric" });
-  };
-  
-  // <<<<<<<< تعديل حالة التحميل هنا >>>>>>>>>
- if (loading || !weatherData) {
-  return (
-  <div className={Style.loadingContainer}>
-  <section className={Style.main}>
-    {/* العناوين */}
-    <div className={Style.skeletonHeader}>
-      <Skeleton className="block h-8 w-24 rounded-md bg-[#3b3a55] animate-slowPulse" />
-      <Skeleton className="block h-8 w-20 rounded-md bg-[#3b3a55] animate-slowPulse" />
-    </div>
-
-    {/* عنوان كبير */}
-    <Skeleton className="block h-8 w-64 mt-8 mx-auto rounded-md bg-[#3b3a55] animate-slowPulse" />
-
-    {/* شريط البحث */}
-    <div className={Style.skeletonSearch}>
-      <Skeleton className="block h-10 w-[70%] rounded-md bg-[#3b3a55] animate-slowPulse" />
-      <Skeleton className="block h-10 w-[25%] rounded-md bg-[#3b3a55] animate-slowPulse" />
-    </div>
-
-    {/* المحتوى الرئيسي */}
-    <div className={Style.skeletonMain}>
-      {/* يسار */}
-      <div className={Style.skeletonCard}>
-        <Skeleton className="block h-full w-full rounded-md bg-[#3b3a55] animate-slowPulse" />
+  if (loading || !weatherData) {
+    return (
+      <div className={Style.loadingContainer}>
+        <section className={Style.main}>
+          <div className={Style.skeletonHeader}>
+            <Skeleton className="block h-8 w-24 rounded-md bg-[#3b3a55] animate-slowPulse" />
+            <Skeleton className="block h-8 w-20 rounded-md bg-[#3b3a55] animate-slowPulse" />
+          </div>
+          <Skeleton className="block h-8 w-64 mt-8 mx-auto rounded-md bg-[#3b3a55] animate-slowPulse" />
+          <div className={Style.skeletonSearch}>
+            <Skeleton className="block h-10 w-[70%] rounded-md bg-[#3b3a55] animate-slowPulse" />
+            <Skeleton className="block h-10 w-[25%] rounded-md bg-[#3b3a55] animate-slowPulse" />
+          </div>
+          <div className={Style.skeletonMain}>
+            <div className={Style.skeletonCard}>
+              <Skeleton className="block h-full w-full rounded-md bg-[#3b3a55] animate-slowPulse" />
+            </div>
+            <div className={Style.skeletonHourly}>
+              <Skeleton className="block h-full w-full rounded-md bg-[#3b3a55] animate-slowPulse" />
+            </div>
+          </div>
+        </section>
       </div>
+    );
+  }
 
-      {/* يمين */}
-      <div className={Style.skeletonHourly}>
-        <Skeleton className="block h-full w-full rounded-md bg-[#3b3a55] animate-slowPulse" />
-      </div>
-    </div>
-  </section>
-</div>
-
-  );
-}
-  // <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>
-  
   const { current, hourly, daily } = weatherData;
 
+  const daysOfWeek = daily.time.map((date) =>
+    new Date(date).toLocaleDateString("en-US", { weekday: "long" })
+  );
+
+  const getHourlyForSelectedDay = () => {
+    const targetDay = selectedDay || daysOfWeek[0];
+    return hourly.time
+      .map((time, index) => ({
+        time,
+        temp: hourly.temperature_2m[index],
+        code: hourly.weather_code[index],
+      }))
+      .filter(
+        (entry) =>
+          new Date(entry.time).toLocaleDateString("en-US", {
+            weekday: "long",
+          }) === targetDay
+      );
+  };
+
+  const hourlyData = getHourlyForSelectedDay();
+
   return (
-    <>
-      <section className={Style.main}>
-        <nav className={Style.navbar}>
-          <div className={Style.sectionMain}>
-            <img src={Logo} alt="this is Logo" />
-            <div className={Style.Setting}>
+    <section className={Style.main}>
+      <nav className={Style.navbar}>
+        <div className={Style.sectionMain}>
+          <img src={Logo} alt="Logo" />
+          <div className={Style.Setting}>
+            <DropdownMenu>
+              <DropdownMenuTrigger className={Style.drop} asChild>
+                <button className={Style.ButtonDrop}>
+                  <AiOutlineSetting className={Style.iconsSitings} />
+                  Units
+                  <AiOutlineDown className={Style.iconsSitings} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </nav>
+
+      <h1 className={Style.hed}>How’s the sky looking today?</h1>
+
+      <div className={Style.SearchContainer}>
+        <div className={Style.searchInput}>
+          <FaSearch className={Style.searchicon} />
+          <input
+            type="text"
+            placeholder="Search for a place..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        {searchResults.length > 0 && (
+          <div className={Style.searchResultsList}>
+            {searchResults.map((result) => (
+              <div
+                key={result.id}
+                className={Style.searchResultItem}
+                onClick={() => handleCitySelect(result)}
+              >
+                {result.name}, {result.country}
+              </div>
+            ))}
+          </div>
+        )}
+        <button className={Style.searchButton} onClick={handleSearch}>
+          Search
+        </button>
+      </div>
+
+      <SunTimes daily={daily} />
+
+      <main className={Style.ContainerMain}>
+        <div className={Style.leftMain}>
+          <div
+            className={Style.BackgroundImage}
+            style={{ backgroundImage: `url(${bg})` }}
+          >
+            <div>
+              <h2 className={Style.nameCity}>{city}</h2>
+              <p className={Style.day}>Tuesday, Aug 5, 2025</p>
+            </div>
+            <div className={Style.contentBackground}>
+              <Lottie
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: getWeatherAnimation(current.weather_code),
+                  rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
+                }}
+                height={150}
+                width={150}
+              />
+              <span className={Style.temperature}>
+                {Math.round(current.temperature_2m)}°
+              </span>
+            </div>
+          </div>
+
+          <div className={Style.numberMain}>
+            <div className={Style.feels}>
+              <p>Feels Like</p>
+              <span>{current.apparent_temperature}°</span>
+            </div>
+            <div className={Style.feels}>
+              <p>Humidity</p>
+              <span>{current.relative_humidity_2m}%</span>
+            </div>
+            <div className={Style.feels}>
+              <p>Wind</p>
+              <span>{current.wind_speed_10m} Km/h</span>
+            </div>
+            <div className={Style.feels}>
+              <p>Precipitation</p>
+              <span>{current.precipitation} mm</span>
+            </div>
+          </div>
+
+          <div className={Style.dailyMain}>
+            <h3>Daily forecast</h3>
+            <div className={Style.allRain}>
+              {daily.time.map((date, index) => (
+                <div key={index} className={Style.rain}>
+                  <p>{getDayOfWeek(date)}</p>
+                  <Lottie
+                    options={{
+                      loop: true,
+                      autoplay: true,
+                      animationData: getWeatherAnimation(daily.weather_code[index]),
+                      rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
+                    }}
+                    height={60}
+                    width={60}
+                  />
+                  <div className={Style.numberRain}>
+                    <span>{Math.round(daily.temperature_2m_max[index])}°</span>
+                    <span>{Math.round(daily.temperature_2m_min[index])}°</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className={Style.rightMain}>
+          <div className={Style.rightTop}>
+            <h3>Hourly forecast</h3>
+            <div className={Style.RightRightArea}>
               <DropdownMenu>
-                <DropdownMenuTrigger className={Style.drop} asChild >
-                  <button className={Style.ButtonDrop}>
-                    <AiOutlineSetting className={Style.iconsSitings} />
-                      Units
-                    <AiOutlineDown className={Style.iconsSitings} />
-                  </button>
+                <DropdownMenuTrigger className={Style.rightDrop}>
+                  {selectedDay || daysOfWeek[0]}
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuContent className={Style.dropDay}>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+                  {daysOfWeek.map((day, index) => (
+                    <DropdownMenuItem key={index} onClick={() => setSelectedDay(day)}>
+                      {day}
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              <AiOutlineDown className={Style.iconsSitings} />
             </div>
           </div>
-        </nav>
 
-        <h1 className={Style.hed}>How’s the sky looking today?</h1>
-
-        <section>
-          <div className={Style.SearchContainer}>
-            <div className={Style.searchInput}>
-              <FaSearch className={Style.searchicon} />
-              <input 
-                type="text" 
-                placeholder="Search for a place..."
-                value={searchQuery} 
-                onChange={(e) => setSearchQuery(e.target.value)} 
-              />
-            </div>
-            {searchResults.length > 0 && (
-              <div className={Style.searchResultsList}>
-                {searchResults.map((result) => (
-                  <div
-                    key={result.id}
-                    className={Style.searchResultItem}
-                    onClick={() => handleCitySelect(result)}
-                  >
-                    {result.name}, {result.country}
+          <ScrollArea className="h-[577px] w-[340px] rounded-md ">
+            <div className={Style.ScrollAreaAll}>
+              {hourlyData.slice(0, 12).map((item, index) => (
+                <div className={Style.Scroll} key={index}>
+                  <div className={Style.Scrollsub}>
+                    <Lottie
+                      options={{
+                        loop: true,
+                        autoplay: true,
+                        animationData: getWeatherAnimation(item.code),
+                        rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
+                      }}
+                      height={40}
+                      width={40}
+                    />
+                    <span>
+                      {new Date(item.time).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                      })}
+                    </span>
                   </div>
-                ))}
-              </div>
-            )}
-            <button className={Style.searchButton} onClick={handleSearch}>
-              Search
-            </button>
-          </div>
-
-          <main className={Style.ContainerMain}>
-            <div className={Style.leftMain}>
-              <div
-                className={Style.BackgroundImage}
-                style={{ backgroundImage: `url(${bg})` }}
-              >
-                <div>
-                  <h2 className={Style.nameCity}>{city}</h2>
-                  <p className={Style.day}>Tuesday, Aug 5, 2025</p>
+                  <span className={Style.timeTemp}>{Math.round(item.temp)}°</span>
                 </div>
-                <div className={Style.contentBackground}>
-                  <img
-                    className={Style.sunny}
-                    src={getWeatherIcon(current.weather_code)}
-                    alt="this is icon"
-                  />
-                  <span className={Style.temperature}>
-                    {Math.round(current.temperature_2m)}°
-                  </span>
-                </div>
-              </div>
-              <div className={Style.numberMain}>
-                <div className={Style.feels}>
-                  <p>Feels Like</p>
-                  <span>{current.apparent_temperature}°</span>
-                </div>
-                <div className={Style.feels}>
-                  <p>Humidity</p>
-                  <span>{current.relative_humidity_2m}%</span>
-                </div>
-                <div className={Style.feels}>
-                  <p>Wind</p>
-                  <span>{current.wind_speed_10m} Km/h</span>
-                </div>
-                <div className={Style.feels}>
-                  <p>Precipitation</p>
-                  <span>{current.precipitation} mm</span>
-                </div>
-              </div>
-              <div className={Style.dailyMain}>
-                <h3>Daily forecast</h3>
-                <div className={Style.allRain}>
-                  {daily.time.map((date, index) => (
-                    <div key={index} className={Style.rain}>
-                      <p>{getDayOfWeek(date)}</p>
-                      <img
-                        src={getWeatherIcon(daily.weather_code[index])}
-                        alt="Weather icon"
-                      />
-                      <div className={Style.numberRain}>
-                        <span>
-                          {Math.round(daily.temperature_2m_max[index])}°
-                        </span>
-                        <span>
-                          {Math.round(daily.temperature_2m_min[index])}°
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-            <div className={Style.rightMain}>
-              <div className={Style.rightTop}>
-                <h3>Hourly forecast</h3>
-                <div className={Style.RightRightArea}>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className={Style.rightDrop}>
-                      Tuesday
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <AiOutlineDown className={Style.iconsSitings} />
-                </div>
-              </div>
-              <ScrollArea className="h-[577px] w-[340px] rounded-md ">
-                <div className={Style.ScrollAreaAll}>
-                  {hourly.time.slice(0, 12).map((time, index) => (
-                    <div className={Style.Scroll} key={index}>
-                      <div className={Style.Scrollsub}>
-                        <img src={getWeatherIcon(hourly.weather_code[index])} alt="Weather icon" /> 
-                        <span>{new Date(time).toLocaleTimeString("en-US", { hour: "numeric" })}</span>
-                      </div>
-                      <span className={Style.timeTemp}>{Math.round(hourly.temperature_2m[index])}°</span>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </div>
-          </main>
-        </section>
-      </section>
-    </>
+          </ScrollArea>
+        </div>
+      </main>
+    </section>
   );
 }

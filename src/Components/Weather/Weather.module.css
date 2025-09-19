@@ -62,11 +62,11 @@
 .searchInput{
    display: flex;
   align-items: center;
-  background-color: #2a2940; 
-  padding: 8px 12px;
-  border-radius: 8px;
-  width: 426px;
-  gap: 10px;
+background: var(--colors-neutral-800, #262540);padding: var(--spacing-200, 16px) var(--spacing-300, 24px);
+border-radius: var(--corner-radius-12, 12px);
+gap: var(--spacing-200, 16px);
+flex-shrink: 0;
+
 
 }
 .searchInput input{
@@ -516,4 +516,52 @@ height: 60%;
   .feels p {
     font-size: 14px;
   }
+}
+.rightDrop{
+  color: white;
+}
+.solarInfo{
+  color: white;
+}
+.containerCircle {
+  width: 100%;
+  max-width: 400px;
+  margin:  auto;
+  text-align: center;
+  color: white;
+ 
+}
+
+.semiCircle {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+  border: 3px solid #ffa500;
+  border-bottom: none;
+  background: linear-gradient(to top, #fff0, #ffd70020);
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.sun {
+  position: absolute;
+  top: -12px;
+  transform: translateX(-50%);
+  font-size: 24px;
+  transition: left 1s linear;
+}
+
+.times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  align-items: center;
+  gap: 40px;
+}
+
+.countdown {
+  font-size: 12px;
+  color: #b4a2a2;
 }

@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      
     },
   },
   base: '/wather', // 👈 هذا أهم سطر عشان يزبط على GitHub Pages
