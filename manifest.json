@@ -25,10 +25,7 @@
       "type": "image/png",
       "form_factor": "wide"
     }
-  ],
-  "background_color": "#2196f3",
-  "theme_color": "#2196f3",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
+ 
   
 }
