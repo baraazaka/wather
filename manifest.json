@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2196f3",
-  "orientation": "portrait",
+  "description": "Weather app for Al Sheikh area",
   "icons": [
     {
       "src": "/wather/icons/icon-192x192.png",
@@ -17,5 +17,18 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+    "screenshots": [
+    {
+      "src": "/wather/icons/splash-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "background_color": "#2196f3",
+  "theme_color": "#2196f3",
+  "display": "standalone",
+  "orientation": "portrait"
+  
 }
